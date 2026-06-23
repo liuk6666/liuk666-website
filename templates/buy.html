@@ -103,9 +103,9 @@
     </footer>
 
     <script>
-        // 从URL路径获取产品ID: /buy/1
-        const pathParts = window.location.pathname.split('/');
-        const productId = parseInt(pathParts[pathParts.length - 1]) || 1;
+        // 从URL路径提取产品ID (兼容 /buy/5 /buy/5?t=1 等)
+        const match = window.location.pathname.match(/\/buy\/(\d+)/);
+        const productId = match ? parseInt(match[1]) : 1;
         
         const products = {
             1: { name: '科研助手 Agent', price: 699 },
