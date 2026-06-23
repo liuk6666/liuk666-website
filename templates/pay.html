@@ -28,7 +28,7 @@
     <div class="pay-container">
         <h1>订单支付</h1>
         <p class="order-id">订单号：<span id="orderId">{{ order_id }}</span></p>
-        <div class="amount" id="payAmount">¥--</div>
+        <div class="amount" id="payAmount">¥{{ amount }}</div>
         
         <div class="qr-section">
             <p>请用微信扫码支付</p>
@@ -46,13 +46,7 @@
     </div>
 
     <script>
-        // 从订单ID获取金额
-        const orderId = document.getElementById('orderId').textContent;
-        fetch('/create_order').then(r => r.json()).catch(() => {});
-        // 从URL参数读取金额
-        const params = new URLSearchParams(window.location.search);
-        const amount = params.get('amount') || '--';
-        document.getElementById('payAmount').textContent = '¥' + amount;
+        console.log('订单号: {{ order_id }} | 金额: ¥{{ amount }}');
     </script>
 </body>
 </html>

@@ -184,7 +184,19 @@ def create_order():
 
 @app.route('/pay/<int:order_id>')
 def pay(order_id):
-    return render_template('pay.html', order_id=order_id)
+    # 从订单中获取金额
+    amount = '--'
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute('SELECT amount FROM orders WHERE id = ?', (order_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            amount = str(int(row[0]))
+    except:
+        pass
+    return render_template('pay.html', order_id=order_id, amount=amount)
 
 
 @app.route('/buy/<int:product_id>', methods=['GET', 'POST'])
