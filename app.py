@@ -105,6 +105,11 @@ def index():
     conn.close()
     return render_template('index.html', products=products, services=services)
 
+@app.route('/mall')
+def mall():
+    return render_template('mall.html')
+
+
 @app.route('/products')
 def products():
     """产品列表"""
