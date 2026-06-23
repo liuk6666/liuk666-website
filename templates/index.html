@@ -4,146 +4,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>团湘网络 - AI Agent 与技术创新</title>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Geist', -apple-system, sans-serif; background: #0a0a0f; color: #fff; overflow-x: hidden; }
-
-        /* 3D 背景层 */
-        .scene-bg { position: fixed; inset: 0; z-index: 0; }
-        .scene-bg spline-viewer { width: 100vw; height: 100vh; display: block; }
-
-        /* 内容层 */
-        .main { position: relative; z-index: 1; pointer-events: none; }
-        .main > * { pointer-events: auto; }
-
-        /* 导航 */
-        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; background: rgba(10,10,15,0.6); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
-        .nav .logo { font-size: 1.3rem; font-weight: 700; background: linear-gradient(135deg, #a855f7, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-        .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
-        .nav-links a:hover { color: #a855f7; }
-        .nav-links a.mall { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: 600; }
-        .nav-links a.mall:hover { background: linear-gradient(135deg, #818cf8, #c084fc); }
-
-        /* Hero */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 20%, #a5b4fc 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 1.2rem; color: rgba(255,255,255,0.5); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.6; }
-        .btn { padding: 0.85rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s; display: inline-block; border: none; cursor: pointer; }
-        .btn-primary { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(99,102,241,0.5); }
-        .btn-ghost { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); margin-left: 1rem; }
-        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
-        @media (max-width: 768px) { .btn-ghost { margin-left: 0; margin-top: 1rem; } }
-
-        /* Sections */
-        .section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
-        .section h2 { font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 1rem; letter-spacing: -0.03em; }
-        .section .sub { text-align: center; color: rgba(255,255,255,0.4); margin-bottom: 4rem; font-size: 1.1rem; }
-
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
-        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 2rem; transition: all 0.4s; }
-        .card:hover { transform: translateY(-8px); border-color: rgba(99,102,241,0.3); box-shadow: 0 20px 60px rgba(99,102,241,0.15); }
-        .card .icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-        .card h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.8rem; }
-        .card p { color: rgba(255,255,255,0.5); line-height: 1.7; font-size: 0.95rem; }
-        .card .arrow { display: inline-block; margin-top: 1rem; color: #a855f7; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
-        .card .arrow:hover { color: #c084fc; }
-
-        .about { padding: 6rem 2rem; max-width: 800px; margin: 0 auto; text-align: center; }
-        .about h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; }
-        .about p { color: rgba(255,255,255,0.5); line-height: 1.8; font-size: 1.1rem; }
-
-        .contact { padding: 6rem 2rem; text-align: center; }
-        .contact h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1.5rem; }
-        .contact p { color: rgba(255,255,255,0.5); line-height: 1.8; }
-
-        .footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); }
-        .footer p, .footer a { color: rgba(255,255,255,0.3); font-size: 0.85rem; text-decoration: none; }
-
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: #fff; }
+        
+        /* 导航栏 */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1.2rem 2rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { list-style: none; display: flex; gap: 3rem; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-links a:hover { color: #667eea; }
+        .nav-links a.mall-link { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 0.5rem 1.2rem; border-radius: 20px; color: #fff; }
+        
+        /* 主横幅 */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%); animation: rotate 30s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .hero-content { text-align: center; z-index: 1; max-width: 900px; padding: 0 2rem; }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.3rem; color: rgba(255,255,255,0.7); margin-bottom: 2.5rem; }
+        .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; }
+        .btn { padding: 1rem 2.5rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s; font-size: 1rem; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; box-shadow: 0 10px 30px rgba(102,126,234,0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(102,126,234,0.5); }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        
+        /* 业务板块 */
+        .business { padding: 100px 0; background: #0a0a0a; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .section-title p { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .business-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .business-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2.5rem 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
+        .business-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transform: scaleX(0); transition: transform 0.4s; }
+        .business-card:hover::before { transform: scaleX(1); }
+        .business-card:hover { transform: translateY(-10px); border-color: rgba(102,126,234,0.3); box-shadow: 0 20px 60px rgba(102,126,234,0.2); }
+        .business-icon { font-size: 3rem; margin-bottom: 1.2rem; }
+        .business-card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+        .business-card p { color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 1.2rem; }
+        .business-features { list-style: none; margin-bottom: 1.5rem; }
+        .business-features li { color: rgba(255,255,255,0.7); padding: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+        .business-features li:before { content: '✓'; position: absolute; left: 0; color: #667eea; }
+        .business-link { color: #667eea; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; transition: gap 0.3s; }
+        .business-link:hover { gap: 1rem; }
+        
+        /* 关于 + 联系（紧凑） */
+        .about { padding: 60px 0; background: linear-gradient(180deg, #0a0a0a 0%, #111 100%); }
+        .about-content { max-width: 800px; margin: 0 auto; padding: 0 2rem; text-align: center; }
+        .about h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .about p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1.5rem; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2rem 0; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { color: rgba(255,255,255,0.6); margin-top: 0.5rem; font-size: 0.85rem; }
+        .contact { padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+        .contact h2 { font-size: 1.5rem; margin-bottom: 0.8rem; }
+        .contact p { color: rgba(255,255,255,0.7); font-size: 1rem; }
+        .contact .icp { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 0.8rem; }
+        .contact .icp a { color: rgba(255,255,255,0.4); text-decoration: none; }
+        
+        /* 页脚 */
+        .footer { background: #050505; border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 0; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+        .footer a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 1rem; transition: color 0.3s; }
+        .footer a:hover { color: #667eea; }
+        .footer .icp { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 0.5rem; }
+        
+        /* 响应式 */
         @media (max-width: 768px) {
-            .nav { padding: 0.8rem 1rem; }
-            .nav-links { gap: 1rem; font-size: 0.8rem; }
-            .nav-links a.mall { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-            .logo { font-size: 1.1rem; }
-            .hero h1 { font-size: 2rem; }
-            .section { padding: 4rem 1rem; }
-            .section h2 { font-size: 1.8rem; }
-            .card-grid { grid-template-columns: 1fr; }
+            .container { padding-left: 1rem; padding-right: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 0.95rem; }
+            .hero-buttons { flex-direction: column; gap: 0.8rem; }
+            .hero-buttons .btn { width: 100%; text-align: center; padding: 0.9rem 1.5rem; font-size: 1rem; }
+            .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .nav-links a.mall-link { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+            .logo { font-size: 1.2rem; }
+            .business-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .business-section { padding: 60px 0; }
+            .business-section h2 { font-size: 1.4rem; }
+            .about-section { padding: 50px 1rem; }
+            .about-section h2 { font-size: 1.4rem; }
+            .footer { padding: 2rem 1rem; font-size: 0.85rem; }
+            /* 防止横向滚动 */
+            body { overflow-x: hidden; }
+            table, pre, code { max-width: 100%; word-break: break-word; }
         }
     </style>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
 </head>
 <body>
-    <div class="scene-bg">
-        <spline-viewer url="https://prod.spline.design/UWoeqiir20o49Dah/scene.splinecode" background="rgba(0,0,0,0)"></spline-viewer>
-    </div>
-
-    <nav class="nav">
-        <div class="logo">团湘网络</div>
-        <ul class="nav-links">
-            <li><a href="/products" class="mall">🛒 商城</a></li>
-            <li><a href="#business">业务</a></li>
-            <li><a href="#about">关于</a></li>
-            <li><a href="#contact">联系</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">团湘网络</div>
+            <ul class="nav-links">
+                <li><a href="/products" class="mall-link">🛒 商城</a></li>
+                <li><a href="#business">业务</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="javascript:void(0)" onclick="scrollToContact()">联系</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <div class="main">
-        <section class="hero">
-            <h1>AI Agent<br>与技术创新</h1>
-            <p>专为企业和开发者打造的 AI 智能代理系统、量化交易平台和技术服务</p>
-            <a href="/products" class="btn btn-primary">🛒 进入商城</a>
-            <a href="#business" class="btn btn-ghost">了解业务</a>
-        </section>
+    <!-- 第一屏：主横幅 -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>AI Agent 与技术创新</h1>
+            <p>专注人工智能与软件开发</p>
+            <div class="hero-buttons">
+                <a href="#business" class="btn btn-primary">了解业务</a>
+                <a href="javascript:void(0)" onclick="scrollToContact()" class="btn btn-secondary">联系我们</a>
+            </div>
+        </div>
+    </header>
 
-        <section class="section" id="business">
+    <!-- 第二屏：核心业务 -->
+    <section class="business" id="business">
+        <div class="section-title">
             <h2>核心业务</h2>
-            <p class="sub">三大技术方向，全方位满足您的需求</p>
-            <div class="card-grid">
-                <div class="card">
-                    <span class="icon">🤖</span>
-                    <h3>AI Agent 开发</h3>
-                    <p>基于大语言模型的智能代理系统，自动化完成复杂任务，提升工作效率 10 倍以上。</p>
-                    <a href="/products" class="arrow">了解更多 →</a>
+            <p>三大技术方向，全方位满足您的需求</p>
+        </div>
+        <div class="business-grid">
+            <div class="business-card">
+                <div class="business-icon">🤖</div>
+                <h3>AI Agent 开发</h3>
+                <p>基于大语言模型的智能代理系统，自动化完成复杂任务，提升工作效率 10 倍以上。</p>
+                <ul class="business-features">
+                    <li>科研助手 Agent（文献检索/论文润色）</li>
+                    <li>客服 Agent（自动回复/知识库）</li>
+                    <li>量化交易 Agent（行情分析/自动交易）</li>
+                    <li>企业定制 Agent</li>
+                </ul>
+                <a href="/products" class="business-link">了解更多 →</a>
+            </div>
+
+            <div class="business-card">
+                <div class="business-icon">💻</div>
+                <h3>网站与软件开发</h3>
+                <p>全栈开发服务，从需求分析到部署上线，提供一站式技术解决方案。</p>
+                <ul class="business-features">
+                    <li>企业官网/响应式网页</li>
+                    <li>后台管理系统</li>
+                    <li>数据爬虫/数据采集</li>
+                    <li>API 对接/系统集成</li>
+                </ul>
+                <a href="/products" class="business-link">了解更多 →</a>
+            </div>
+
+            <div class="business-card">
+                <div class="business-icon">📈</div>
+                <h3>量化交易系统</h3>
+                <p>专业级量化交易平台，实时行情、自动交易、风险控制，24 小时无人值守运行。</p>
+                <ul class="business-features">
+                    <li>Dream3 量化系统（完整版）</li>
+                    <li>实时 WebSocket 行情</li>
+                    <li>多策略并行交易</li>
+                    <li>飞书/微信实时通知</li>
+                </ul>
+                <a href="/products" class="business-link">了解更多 →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于 + 联系 -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2>关于团湘网络</h2>
+            <p>团湘网络是由计算机博士创立的技术服务公司，专注于 AI Agent、量化交易和软件开发领域。</p>
+            <p>创始人拥有多年科研与工业界经验，在 AI、量化交易、分布式系统等领域有深入研究。</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">服务项目</div>
                 </div>
-                <div class="card">
-                    <span class="icon">📊</span>
-                    <h3>量化交易系统</h3>
-                    <p>专业级量化交易平台，实时行情、自动交易、风险控制，24 小时无人值守运行。</p>
-                    <a href="/products" class="arrow">了解更多 →</a>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">客户满意</div>
                 </div>
-                <div class="card">
-                    <span class="icon">💻</span>
-                    <h3>网站与软件开发</h3>
-                    <p>全栈开发服务，从需求分析到部署上线，提供一站式技术解决方案。</p>
-                    <a href="/products" class="arrow">了解更多 →</a>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">技术支持</div>
                 </div>
             </div>
-        </section>
 
-        <section class="about" id="about">
-            <h2>关于团湘网络</h2>
-            <p>团湘网络是一家专注于 AI Agent、量化交易和软件开发的技术服务公司。创始人在人工智能、量化交易、分布式系统等领域有深入研究。</p>
-        </section>
+            <div class="contact" id="contact">
+                <h2>联系我们</h2>
+                <p>电话：16603329393 &nbsp;&nbsp;·&nbsp;&nbsp; 邮箱：TXWL2026@163.com</p>
+                <p class="icp">
+                    <a href="https://beian.miit.gov.cn/" target="_blank">冀 ICP 备 2025122335 号 -1</a>
+                </p>
+            </div>
+        </div>
+    </section>
 
-        <section class="contact" id="contact">
-            <h2>联系我们</h2>
-            <p>电话：16603329393 · 邮箱：TXWL2026@163.com</p>
-            <a href="/products" class="btn btn-primary" style="margin-top:2rem;">进入商城 →</a>
-        </section>
-
-        <footer class="footer">
-            <p>&copy; 2026 团湘网络 · <a href="https://beian.miit.gov.cn/" target="_blank">冀ICP备2025122335号-1</a></p>
-        </footer>
-    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 团湘网络</p>
+        </div>
+    </footer>
 
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                const t = document.querySelector(a.getAttribute('href'));
-                if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+        // 平滑滚动到联系区域
+        function scrollToContact() {
+            document.querySelector('#contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // 其他平滑滚动
+        document.querySelectorAll('a[href^="#"]:not([href="javascript:void(0)"])').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         });
     </script>
