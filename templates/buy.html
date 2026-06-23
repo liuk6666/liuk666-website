@@ -52,6 +52,7 @@
             <div class="logo">团湘网络</div>
             <ul class="nav-links">
                 <li><a href="/products" class="mall-link">🛒 商城</a></li>
+                <li><a href="/#business">业务</a></li>
                 <li><a href="/#about">关于</a></li>
                 <li><a href="/#contact">联系</a></li>
             </ul>
@@ -102,15 +103,18 @@
     </footer>
 
     <script>
-        // 获取产品信息
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id') || 1;
+        // 从URL路径获取产品ID: /buy/1
+        const pathParts = window.location.pathname.split('/');
+        const productId = parseInt(pathParts[pathParts.length - 1]) || 1;
         
         const products = {
             1: { name: '科研助手 Agent', price: 699 },
             2: { name: '客服 Agent', price: 499 },
             3: { name: '量化交易 Agent', price: 1999 },
-            4: { name: '量化交易系统', price: 5000 }
+            4: { name: '量化交易系统', price: 5000 },
+            5: { name: '网站开发', price: 3000 },
+            6: { name: '数据爬虫', price: 1000 },
+            7: { name: 'API 对接', price: 2000 }
         };
         
         const product = products[productId] || products[1];
