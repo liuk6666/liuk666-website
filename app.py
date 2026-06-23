@@ -204,5 +204,6 @@ def admin():
     return render_template('admin.html', orders=orders, products=products, services=services)
 
 if __name__ == '__main__':
-    init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
+else:
+    init_db()  # Gunicorn 启动时初始化数据库
