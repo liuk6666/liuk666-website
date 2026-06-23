@@ -73,11 +73,23 @@
         
         /* 响应式 */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
-            .hero-buttons { flex-direction: column; }
-            .nav-links { gap: 1.5rem; }
-            .business-grid { grid-template-columns: 1fr; }
+            .container { padding-left: 1rem; padding-right: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 0.95rem; }
+            .hero-buttons { flex-direction: column; gap: 0.8rem; }
+            .hero-buttons .btn { width: 100%; text-align: center; padding: 0.9rem 1.5rem; font-size: 1rem; }
+            .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .nav-links a.mall-link { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+            .logo { font-size: 1.2rem; }
+            .business-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .business-section { padding: 60px 0; }
+            .business-section h2 { font-size: 1.4rem; }
+            .about-section { padding: 50px 1rem; }
+            .about-section h2 { font-size: 1.4rem; }
+            .footer { padding: 2rem 1rem; font-size: 0.85rem; }
+            /* 防止横向滚动 */
+            body { overflow-x: hidden; }
+            table, pre, code { max-width: 100%; word-break: break-word; }
         }
     </style>
 </head>
