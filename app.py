@@ -112,17 +112,7 @@ def mall():
 
 @app.route('/products')
 def products():
-    """产品列表"""
-    category = request.args.get('category', '')
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    if category:
-        cursor.execute('SELECT * FROM products WHERE category = ? AND status="active"', (category,))
-    else:
-        cursor.execute('SELECT * FROM products WHERE status="active"')
-    products = cursor.fetchall()
-    conn.close()
-    return render_template('products.html', products=products, current_category=category)
+    return render_template('mall.html')  # 复用 mall.html
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
