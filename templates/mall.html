@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商城 - 团湘网络</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: #fff; }
+        
+        /* 导航栏 */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1.2rem 2rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { list-style: none; display: flex; gap: 3rem; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-links a:hover { color: #667eea; }
+        .nav-links a.mall-link { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 0.5rem 1.2rem; border-radius: 20px; color: #fff; }
+        
+        /* 商城头部 */
+        .mall-header { background: linear-gradient(180deg, #111 0%, #0a0a0a 100%); padding: 150px 0 80px; text-align: center; }
+        .mall-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .mall-header p { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        
+        /* 分类筛选 */
+        .filter-bar { max-width: 1200px; margin: 0 auto 50px; padding: 0 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .filter-btn { padding: 0.7rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: transparent; }
+        
+        /* 商品网格 */
+        .products-grid { max-width: 1200px; margin: 0 auto; padding: 0 2rem 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+        .product-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden; }
+        .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transform: scaleX(0); transition: transform 0.3s; }
+        .product-card:hover::before { transform: scaleX(1); }
+        .product-card:hover { transform: translateY(-8px); border-color: rgba(102,126,234,0.3); box-shadow: 0 20px 60px rgba(102,126,234,0.2); }
+        .product-tag { display: inline-block; padding: 0.4rem 1rem; background: rgba(102,126,234,0.2); color: #667eea; border-radius: 20px; font-size: 0.8rem; margin-bottom: 1rem; font-weight: 600; }
+        .product-card h3 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+        .product-card p { color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .product-features { list-style: none; margin-bottom: 1.5rem; }
+        .product-features li { color: rgba(255,255,255,0.7); padding: 0.4rem 0; padding-left: 1.5rem; position: relative; font-size: 0.9rem; }
+        .product-features li:before { content: '✓'; position: absolute; left: 0; color: #667eea; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+        .product-price { font-size: 1.5rem; font-weight: 700; color: #667eea; }
+        .buy-btn { padding: 0.7rem 1.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s; display: inline-block; }
+        .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        
+        /* 页脚 */
+        .footer { background: #050505; border-top: 1px solid rgba(255,255,255,0.08); padding: 3rem 0; text-align: center; color: rgba(255,255,255,0.5); }
+        .footer a { color: rgba(255,255,255,0.6); text-decoration: none; margin: 0 1rem; }
+        
+        @media (max-width: 768px) {
+            .mall-header h1 { font-size: 2rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">团湘网络</div>
+            <ul class="nav-links">
+                <li><a href="/mall" class="mall-link">🛒 商城</a></li>
+                <li><a href="/">首页</a></li>
+                <li><a href="/#business">业务</a></li>
+                <li><a href="/#about">关于</a></li>
+                <li><a href="/contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="mall-header">
+        <div class="container">
+            <h1>商城</h1>
+            <p>AI Agent · 软件工具 · 技术服务</p>
+        </div>
+    </header>
+
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProducts('all')">全部</button>
+        <button class="filter-btn" onclick="filterProducts('ai')">AI Agent</button>
+        <button class="filter-btn" onclick="filterProducts('software')">软件工具</button>
+        <button class="filter-btn" onclick="filterProducts('service')">技术服务</button>
+    </div>
+
+    <div class="products-grid">
+        <!-- AI Agent 产品 -->
+        <div class="product-card" data-category="ai">
+            <span class="product-tag">🤖 AI Agent</span>
+            <h3>科研助手 Agent</h3>
+            <p>专为研究人员设计的 AI 助手，文献检索、论文润色、格式调整、摘要生成，提升科研效率 10 倍。</p>
+            <ul class="product-features">
+                <li>文献检索（arXiv/Google Scholar）</li>
+                <li>论文润色（语法/表达优化）</li>
+                <li>格式调整（APA/MLA/IEEE）</li>
+                <li>摘要生成（200-300 字）</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥699</div>
+                <a href="/product/1" class="buy-btn">查看详情</a>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="ai">
+            <span class="product-tag">🤖 AI Agent</span>
+            <h3>客服 Agent</h3>
+            <p>智能客服自动回复系统，支持知识库、问题分类、转人工，7x24 小时在线服务。</p>
+            <ul class="product-features">
+                <li>自动回复客户咨询</li>
+                <li>企业知识库集成</li>
+                <li>智能问题分类</li>
+                <li>无缝转人工客服</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥499</div>
+                <a href="/buy/2" class="buy-btn">立即购买</a>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="ai">
+            <span class="product-tag">🤖 AI Agent</span>
+            <h3>量化交易 Agent</h3>
+            <p>专业级量化交易助手，行情分析、交易信号、风险控制，计算机博士研发。</p>
+            <ul class="product-features">
+                <li>实时行情分析</li>
+                <li>AI 交易信号生成</li>
+                <li>多重风险控制</li>
+                <li>飞书/微信通知</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥1999</div>
+                <a href="/buy/3" class="buy-btn">立即购买</a>
+            </div>
+        </div>
+
+        <!-- 软件工具 -->
+        <div class="product-card" data-category="software">
+            <span class="product-tag">💻 软件工具</span>
+            <h3>量化交易系统（Dream3）</h3>
+            <p>完整量化交易平台，实时 WebSocket 行情、多策略并行、24 小时无人值守运行。</p>
+            <ul class="product-features">
+                <li>实时 WebSocket 行情</li>
+                <li>多策略并行交易</li>
+                <li>完整风控系统</li>
+                <li>部署培训 + 售后</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥5000</div>
+                <a href="/buy/4" class="buy-btn">立即购买</a>
+            </div>
+        </div>
+
+        <!-- 技术服务 -->
+        <div class="product-card" data-category="service">
+            <span class="product-tag">💼 技术服务</span>
+            <h3>网站开发</h3>
+            <p>企业官网、响应式网页、后台管理系统，从设计到部署一站式服务。</p>
+            <ul class="product-features">
+                <li>响应式设计（电脑/手机）</li>
+                <li>后台管理系统</li>
+                <li>SEO 优化</li>
+                <li>30 天免费维护</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥3000 起</div>
+                <a href="/contact" class="buy-btn">咨询报价</a>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="service">
+            <span class="product-tag">💼 技术服务</span>
+            <h3>数据爬虫</h3>
+            <p>网站数据采集、批量抓取、定时采集，支持反爬突破和数据格式化。</p>
+            <ul class="product-features">
+                <li>任意网站数据采集</li>
+                <li>定时自动采集</li>
+                <li>数据格式化（CSV/Excel）</li>
+                <li>反爬突破</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥1000 起</div>
+                <a href="/contact" class="buy-btn">咨询报价</a>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="service">
+            <span class="product-tag">💼 技术服务</span>
+            <h3>API 对接</h3>
+            <p>第三方 API 集成、支付接口、数据同步，快速实现系统互联互通。</p>
+            <ul class="product-features">
+                <li>各类 API 集成</li>
+                <li>支付接口（微信/支付宝）</li>
+                <li>数据同步系统</li>
+                <li>完整接口文档</li>
+            </ul>
+            <div class="product-footer">
+                <div class="product-price">¥2000 起</div>
+                <a href="/contact" class="buy-btn">咨询报价</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 团湘网络</p>
+            <p style="margin-top: 0.5rem; color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+                联系：16603329393 · TXWL2026@163.com
+            </p>
+            <p style="margin-top: 1rem; color: rgba(255,255,255,0.3); font-size: 0.8rem;">
+                <a href="https://beian.miit.gov.cn/" target="_blank" style="color: rgba(255,255,255,0.4); text-decoration: none;">
+                    冀 ICP 备 2025122335 号 -1
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function filterProducts(category) {
+            const cards = document.querySelectorAll('.product-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

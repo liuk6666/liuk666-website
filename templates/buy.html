@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购买 - 团湘网络</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: #fff; }
+        
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1.2rem 2rem; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { list-style: none; display: flex; gap: 3rem; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; }
+        .nav-links a:hover { color: #667eea; }
+        
+        .buy-container { max-width: 800px; margin: 150px auto 50px; padding: 0 2rem; }
+        .product-info { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem; }
+        .product-name { font-size: 2rem; margin-bottom: 0.5rem; }
+        .product-price { font-size: 2.5rem; color: #667eea; font-weight: 700; margin: 1.5rem 0; }
+        .product-desc { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1.5rem; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 1rem; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #667eea; }
+        
+        .payment-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2.5rem; text-align: center; }
+        .payment-section h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .payment-method { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .payment-method:hover { border-color: #667eea; background: rgba(102,126,234,0.1); }
+        .payment-method.selected { border-color: #667eea; background: rgba(102,126,234,0.2); }
+        .payment-method .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .payment-method p { color: rgba(255,255,255,0.7); }
+        
+        .submit-btn { width: 100%; padding: 1.2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 2rem; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        
+        .footer { text-align: center; padding: 2rem; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+        
+        @media (max-width: 768px) {
+            .product-name { font-size: 1.5rem; }
+            .product-price { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">团湘网络</div>
+            <ul class="nav-links">
+                <li><a href="/mall">商城</a></li>
+                <li><a href="/">首页</a></li>
+                <li><a href="/#about">关于</a></li>
+                <li><a href="/#contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="buy-container">
+        <div class="product-info">
+            <h1 class="product-name" id="productName">科研助手 Agent</h1>
+            <div class="product-price" id="productPrice">¥699</div>
+            <p class="product-desc">专为研究人员设计的 AI 助手，文献检索、论文润色、格式调整、摘要生成。</p>
+        </div>
+
+        <form id="buyForm">
+            <div class="form-group">
+                <label>姓名 *</label>
+                <input type="text" name="name" required placeholder="请输入您的姓名">
+            </div>
+            <div class="form-group">
+                <label>联系方式 *</label>
+                <input type="text" name="contact" required placeholder="微信/手机/QQ">
+            </div>
+            <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" name="email" placeholder="用于接收产品">
+            </div>
+
+            <div class="payment-section">
+                <h3>选择支付方式</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPayment('wechat', this)">
+                        <div class="icon">💚</div>
+                        <p>微信支付</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('alipay', this)">
+                        <div class="icon">💙</div>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <input type="hidden" name="payment_method" id="paymentMethod">
+                <button type="submit" class="submit-btn">立即支付</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 团湘网络</p>
+    </footer>
+
+    <script>
+        // 获取产品信息
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id') || 1;
+        
+        const products = {
+            1: { name: '科研助手 Agent', price: 699 },
+            2: { name: '客服 Agent', price: 499 },
+            3: { name: '量化交易 Agent', price: 1999 },
+            4: { name: '量化交易系统', price: 5000 }
+        };
+        
+        const product = products[productId] || products[1];
+        document.getElementById('productName').textContent = product.name;
+        document.getElementById('productPrice').textContent = '¥' + product.price;
+
+        // 选择支付方式
+        function selectPayment(method, element) {
+            document.getElementById('paymentMethod').value = method;
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // 提交订单
+        document.getElementById('buyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                product_id: productId,
+                product_name: product.name,
+                amount: product.price,
+                name: formData.get('name'),
+                contact: formData.get('contact'),
+                email: formData.get('email'),
+                payment_method: formData.get('payment_method')
+            };
+            
+            if (!data.payment_method) {
+                alert('请选择支付方式');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/create_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // 跳转到支付页面
+                    window.location.href = '/pay/' + result.order_id;
+                } else {
+                    alert('创建订单失败：' + result.message);
+                }
+            } catch (error) {
+                alert('提交失败，请联系客服：16603329393');
+            }
+        });
+    </script>
+</body>
+</html>

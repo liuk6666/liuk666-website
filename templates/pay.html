@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付 - 团湘网络</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: sans-serif; background: #0a0a0a; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .pay-container { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 3rem; max-width: 500px; text-align: center; }
+        h1 { font-size: 2rem; margin-bottom: 1rem; }
+        .order-id { color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
+        .amount { font-size: 3rem; color: #667eea; font-weight: 700; margin: 2rem 0; }
+        .qr-code { background: #fff; padding: 2rem; border-radius: 12px; margin: 2rem 0; display: inline-block; }
+        .qr-code img { width: 256px; height: 256px; }
+        .tips { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.8; }
+        .loading { margin-top: 2rem; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="pay-container">
+        <h1>订单支付</h1>
+        <p class="order-id">订单号：{{ order_id }}</p>
+        <div class="amount">¥699</div>
+        
+        <div class="qr-code">
+            <p style="color: #000; font-size: 0.9rem; margin-bottom: 1rem;">请用微信/支付宝扫码支付</p>
+            <img src="/static/wechat.jpg" alt="微信收款码" style="width: 256px; height: 256px;">
+            <p style="color: #000; font-size: 0.85rem; margin-top: 1rem;">或添加微信：HMWK_001</p>
+        </div>
+        
+        <p class="tips">
+            请使用{{ payment_method }}扫描二维码完成支付<br>
+            支付完成后系统将自动确认
+        </p>
+        
+        <div class="loading">
+            正在等待支付...
+        </div>
+    </div>
+    
+    <script>
+        // 轮询检查支付状态
+        setInterval(async () => {
+            const response = await fetch('/check_order/{{ order_id }}');
+            const result = await response.json();
+            if (result.status === 'paid') {
+                alert('支付成功！');
+                window.location.href = '/success';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
