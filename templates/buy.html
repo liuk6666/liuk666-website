@@ -170,7 +170,7 @@
                 
                 if (result.success) {
                     // 跳转到支付页面
-                    window.location.href = '/pay/' + result.order_id;
+                    window.location.href = '/pay/' + result.order_id + '?amount=' + product.price;
                 } else {
                     alert('创建订单失败：' + result.message);
                 }
