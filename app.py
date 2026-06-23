@@ -210,5 +210,10 @@ def admin():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-else:
-    init_db()  # Gunicorn 启动时初始化数据库
+
+# 模块加载时初始化数据库 (Gunicorn 也走这里)
+try:
+    init_db()
+except Exception as e:
+    import sys
+    print(f"init_db warning: {e}", file=sys.stderr)
