@@ -163,6 +163,30 @@ def contact():
     """联系"""
     return render_template('contact.html')
 
+@app.route('/create_order', methods=['POST'])
+def create_order():
+    """创建订单 (JSON API)"""
+    try:
+        data = request.get_json()
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO orders (user_name, contact, product_id, amount, status) VALUES (?, ?, ?, ?, ?)',
+            (data.get('name',''), data.get('contact',''), data.get('product_id',''), data.get('amount',''), 'pending')
+        )
+        order_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True, 'order_id': order_id})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
+
+@app.route('/pay/<int:order_id>')
+def pay(order_id):
+    return render_template('pay.html', order_id=order_id)
+
+
 @app.route('/buy/<int:product_id>', methods=['GET', 'POST'])
 def buy_product(product_id):
     """购买产品"""
